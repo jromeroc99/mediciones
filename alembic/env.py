@@ -10,13 +10,13 @@ from sqlmodel import SQLModel
 
 from src.database.measures import Medida
 from src.database.projects import Proyecto
+from src.config import settings
 
 load_dotenv()
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-if os.getenv("DATABASE_URL"):
-    config.set_main_option("sqlalchemy.url", os.getenv("DATABASE_URL"))
+config.set_main_option("sqlalchemy.url", settings.database_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

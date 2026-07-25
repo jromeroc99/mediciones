@@ -1,0 +1,55 @@
+# ==========================================
+# Archivos de entorno y credenciales (SEGURIDAD)
+# ==========================================
+.env
+.env.*
+!.env.example
+
+# ==========================================
+# Git y herramientas de control de versiones
+# ==========================================
+.git
+.gitignore
+.github
+
+# ==========================================
+# Entornos virtuales locales
+# ==========================================
+.venv
+venv
+ENV/
+env/
+
+# ==========================================
+# Caché de Python y Bytecode
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==========================================
+# Archivos temporales de herramientas (uv, ruff, etc.)
+# ==========================================
+.uv/
+.ruff_cache/
+.mypy_cache/
+
+# ==========================================
+# Archivos de Docker e IDEs
+# ==========================================
+Dockerfile
+docker-compose*.yml
+.dockerignore
+.vscode/
+.idea/
+*.swp
+
+# ==========================================
+# Documentación y Logs
+# ==========================================
+*.log
+README.md
+docs/

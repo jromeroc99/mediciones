@@ -15,5 +15,5 @@ COPY . .
 # Exponer el puerto predeterminado de FastAPI
 EXPOSE 8000
 
-# Ejecutar migraciones con Alembic y arrancar FastAPI
-CMD ["sh", "-c", "uv run alembic upgrade head && uv run fastapi run main.py --port 8000 --host 0.0.0.0"]
+# Ejecutar migraciones con Alembic y arrancar la API
+CMD ["sh", "-c", "uv run alembic upgrade head && uv run uvicorn src.app.main:app --host 0.0.0.0 --port 8000 --workers 4"]
