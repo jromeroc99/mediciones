@@ -3,62 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test API Mediciones</title>
+    <title>API Mediciones</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>🗺️ API de Mediciones - Test Client</h1>
-        <p class="subtitle">Interfaz simple para probar la API de gestión de proyectos y mediciones</p>
-
-        <!-- API Key Section -->
-        <div class="api-key-section">
-            <h3>⚙️ Configuración</h3>
-            <div class="input-group">
-                <input type="password" id="apiKey" placeholder="Tu API Key (X-API-Key)">
-                <button onclick="saveConfig()">Guardar</button>
+        <header class="page-header">
+            <div class="page-header__title">
+                <i data-lucide="map"></i>
+                <h1>API de Mediciones</h1>
             </div>
-            <div id="configStatus"></div>
-        </div>
+            <p class="page-header__subtitle">Cliente de pruebas para la gestión de proyectos y mediciones GNSS</p>
+        </header>
 
-        <!-- Create Project Section -->
-        <div class="section">
-            <h2>➕ Crear Proyecto</h2>
-            <div class="form-grid">
-                <input type="text" id="newProjectName" placeholder="Nombre del proyecto">
-                <input type="datetime-local" id="newProjectDate">
-                <button onclick="createProject()">Crear</button>
+        <section class="card">
+            <div class="card__header">
+                <i data-lucide="key-round"></i>
+                <h2>Configuración</h2>
             </div>
-            <div id="createProjectStatus"></div>
-        </div>
-
-        <!-- Projects Section -->
-        <div class="section">
-            <h2>📁 Proyectos</h2>
-            <button onclick="loadProjects()">🔄 Cargar Proyectos</button>
-            <div id="projectsContainer"></div>
-        </div>
-
-        <!-- Selected Project / Upload CSV Section -->
-        <div class="section">
-            <h2>📥 Subir CSV de Mediciones</h2>
-            <div id="selectedProjectInfo" class="empty-state">Selecciona un proyecto para subir mediciones</div>
-            <div id="uploadCsvForm" class="form-grid" style="display: none;">
-                <input type="file" id="csvFile" accept=".csv">
-                <button onclick="uploadCsv()">Subir CSV</button>
+            <div class="card__body">
+                <div class="form-row">
+                    <div class="field field--grow">
+                        <label for="apiKey">API Key</label>
+                        <input type="password" id="apiKey" placeholder="X-API-Key">
+                    </div>
+                    <button class="btn btn--primary" onclick="saveConfig()">
+                        <i data-lucide="save"></i><span>Guardar</span>
+                    </button>
+                </div>
+                <div id="configStatus" class="status-line"></div>
             </div>
-            <div id="uploadCsvStatus"></div>
-        </div>
+        </section>
 
-        <!-- Measurements Section -->
-        <div class="section">
-            <h2>📊 Mediciones del Proyecto</h2>
-            <div id="measurementsContainer">
-                <p class="empty-state">Selecciona un proyecto para ver sus mediciones</p>
+        <section class="card">
+            <div class="card__header">
+                <i data-lucide="plus-circle"></i>
+                <h2>Nuevo proyecto</h2>
             </div>
-        </div>
+            <div class="card__body">
+                <div class="form-row">
+                    <div class="field field--grow">
+                        <label for="newProjectName">Nombre</label>
+                        <input type="text" id="newProjectName" placeholder="Nombre del proyecto">
+                    </div>
+                    <div class="field">
+                        <label for="newProjectDate">Fecha</label>
+                        <input type="datetime-local" id="newProjectDate">
+                    </div>
+                    <button class="btn btn--primary" onclick="createProject()">
+                        <i data-lucide="plus"></i><span>Crear</span>
+                    </button>
+                </div>
+                <div id="createProjectStatus" class="status-line"></div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card__header">
+                <i data-lucide="folder"></i>
+                <h2>Proyectos</h2>
+                <button class="btn btn--ghost btn--sm card__header-action" onclick="loadProjects()">
+                    <i data-lucide="refresh-cw"></i><span>Recargar</span>
+                </button>
+            </div>
+            <div class="card__body">
+                <div id="projectsContainer">
+                    <p class="empty-state">Pulsa <em>Recargar</em> para listar los proyectos.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card__header">
+                <i data-lucide="upload"></i>
+                <h2>Subir CSV de mediciones</h2>
+            </div>
+            <div class="card__body">
+                <div id="selectedProjectInfo" class="empty-state">Selecciona un proyecto para habilitar la subida.</div>
+                <div id="uploadCsvForm" class="form-row" style="display: none;">
+                    <div class="field field--grow">
+                        <label for="csvFile">Archivo CSV</label>
+                        <input type="file" id="csvFile" accept=".csv">
+                    </div>
+                    <button class="btn btn--primary" onclick="uploadCsv()">
+                        <i data-lucide="cloud-upload"></i><span>Subir</span>
+                    </button>
+                </div>
+                <div id="uploadCsvStatus" class="status-line"></div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card__header">
+                <i data-lucide="map-pin"></i>
+                <h2>Mapa</h2>
+                <span id="mapMeta" class="badge" style="display: none;"></span>
+            </div>
+            <div class="card__body card__body--flush">
+                <div id="mapEmpty" class="empty-state">Selecciona un proyecto para ver los puntos en el mapa.</div>
+                <div id="map" style="display: none;"></div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card__header">
+                <i data-lucide="table"></i>
+                <h2>Mediciones</h2>
+                <span id="measurementsCount" class="badge" style="display: none;"></span>
+            </div>
+            <div class="card__body">
+                <div id="measurementsContainer">
+                    <p class="empty-state">Selecciona un proyecto para ver sus mediciones.</p>
+                </div>
+            </div>
+        </section>
     </div>
 
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/static/script.js"></script>
 </body>
 </html>

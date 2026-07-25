@@ -1,13 +1,16 @@
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Any, Optional
 from sqlmodel import SQLModel, Field, Column
 from geoalchemy2 import Geometry
+from geoalchemy2.elements import WKBElement
+from geoalchemy2.shape import to_shape
+from pydantic import field_serializer
 
 class Proyecto(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     nombre: str
     fecha: datetime
-    poligono: Optional[str] = Field(
+    poligono: Optional[Any] = Field(
         default=None,
         sa_column=Column(Geometry('POLYGON', srid=4326))
     )  # Se genera a partir de las mediciones
@@ -16,3 +19,11 @@ class Proyecto(SQLModel, table=True):
         default_factory=lambda: datetime.now(timezone.utc)
     )
     fecha_modificacion: Optional[datetime] = Field(default=None)
+
+    @field_serializer('poligono')
+    def _serialize_poligono(self, value: Any):
+        if value is None:
+            return None
+        if isinstance(value, WKBElement):
+            return to_shape(value).__geo_interface__
+        return value
