@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Mediciones</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🗺️ API de Mediciones - Test Client</h1>
+        <p class="subtitle">Interfaz simple para probar la API de gestión de proyectos y mediciones</p>
+
+        <!-- API Key Section -->
+        <div class="api-key-section">
+            <h3>⚙️ Configuración</h3>
+            <div class="input-group">
+                <input type="password" id="apiKey" placeholder="Tu API Key (X-API-Key)">
+                <button onclick="saveConfig()">Guardar</button>
+            </div>
+            <div id="configStatus"></div>
+        </div>
+
+        <!-- Create Project Section -->
+        <div class="section">
+            <h2>➕ Crear Proyecto</h2>
+            <div class="form-grid">
+                <input type="text" id="newProjectName" placeholder="Nombre del proyecto">
+                <input type="datetime-local" id="newProjectDate">
+                <button onclick="createProject()">Crear</button>
+            </div>
+            <div id="createProjectStatus"></div>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="section">
+            <h2>📁 Proyectos</h2>
+            <button onclick="loadProjects()">🔄 Cargar Proyectos</button>
+            <div id="projectsContainer"></div>
+        </div>
+
+        <!-- Selected Project / Upload CSV Section -->
+        <div class="section">
+            <h2>📥 Subir CSV de Mediciones</h2>
+            <div id="selectedProjectInfo" class="empty-state">Selecciona un proyecto para subir mediciones</div>
+            <div id="uploadCsvForm" class="form-grid" style="display: none;">
+                <input type="file" id="csvFile" accept=".csv">
+                <button onclick="uploadCsv()">Subir CSV</button>
+            </div>
+            <div id="uploadCsvStatus"></div>
+        </div>
+
+        <!-- Measurements Section -->
+        <div class="section">
+            <h2>📊 Mediciones del Proyecto</h2>
+            <div id="measurementsContainer">
+                <p class="empty-state">Selecciona un proyecto para ver sus mediciones</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
