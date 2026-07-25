@@ -5,7 +5,7 @@ from sqlalchemy import JSON
 
 class Medida(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    id_proyecto: int = Field(index=True)
+    id_proyecto: int = Field(foreign_key="proyecto.id", index=True)
     numero_medicion: float  # ID del CSV
     observaciones: Optional[str] = None  # Remarks
     fecha_hora: datetime  # Time

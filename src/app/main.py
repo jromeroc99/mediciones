@@ -1,6 +1,9 @@
+import os
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.security import APIKeyHeader
 from sqlmodel import Session, select
 from src.database.database import get_session
+from src.app.routers import proyectos, mediciones
 
 
 app = FastAPI(
@@ -9,6 +12,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Incluir routers
+app.include_router(proyectos.router)
+app.include_router(mediciones.router)
+
+# RUTA PÚBLICA (no requiere API Key)
 @app.get("/", tags=["General"])
 def health_check():
     return {"status": "ok", "message": "API de Mediciones funcionando perfectamente"}
+
