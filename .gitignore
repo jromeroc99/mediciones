@@ -10,3 +10,7 @@ wheels/
 .venv
 .env
 *.csv
+
+# Test files
+test-api.html
+static/
