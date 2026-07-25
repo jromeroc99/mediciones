@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, Dict, Any
 from sqlmodel import SQLModel, Field, Column
 from sqlalchemy import JSON
@@ -29,5 +29,5 @@ class Medida(SQLModel, table=True):
         sa_column=Column(JSON)
     )  # Satellites in View, Satellites in Use, cubierto, etc.
     fecha_creacion: Optional[datetime] = Field(
-        default_factory=lambda: datetime.now(datetime.timezone.utc)
+        default_factory=lambda: datetime.now(timezone.utc)
     )

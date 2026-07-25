@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from sqlmodel import SQLModel, Field, Column
 from geoalchemy2 import Geometry
@@ -13,6 +13,6 @@ class Proyecto(SQLModel, table=True):
     )  # Se genera a partir de las mediciones
 
     fecha_creacion: Optional[datetime] = Field(
-        default_factory=lambda: datetime.now(datetime.timezone.utc)
+        default_factory=lambda: datetime.now(timezone.utc)
     )
     fecha_modificacion: Optional[datetime] = Field(default=None)
